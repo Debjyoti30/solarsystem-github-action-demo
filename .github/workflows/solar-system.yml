@@ -31,7 +31,7 @@ jobs:
              npm install
              npm test
       - name: Download the unit test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit test report
           path: test-results.xml
