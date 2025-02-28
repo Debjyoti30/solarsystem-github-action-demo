@@ -9,6 +9,11 @@ on:
     branches: [main]
 
  workflow_dispatch:
+
+env:
+  MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+  MONGO_USERNAME: ${{vars.mongousername}}
+  MONGO_PASSWORD: ${{secrets.MONGOPASSWORD}}
    
 jobs:
   unit-test:
@@ -25,11 +30,11 @@ jobs:
         run: |
              npm install
              npm test
-    #  - name: Download the unit test report
-      #  uses: actions/upload-artifact@v1
-     #   with:
-      #    name: unit test report
-      #    path: unit-test/
+      - name: Download the unit test report
+        uses: actions/upload-artifact@v1
+        with:
+          name: unit test report
+          path: test-results.xml
           
         
          
