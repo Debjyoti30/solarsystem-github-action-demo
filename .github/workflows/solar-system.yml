@@ -1,0 +1,34 @@
+name: Defining CI pipeline /workflow for the solar system project
+on: 
+ push:
+   branches: main
+   
+ pull_request:
+    branches: [main,'feture/*']
+
+ workflow_dispatch:
+   
+jobs:
+  unit-test:
+    name: unit test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: Install nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: insall NPM and test it 
+        run: |
+             npm install
+             npm test
+    #  - name: Download the unit test report
+      #  uses: actions/upload-artifact@v1
+     #   with:
+      #    name: unit test report
+      #    path: unit-test/
+          
+        
+         
+      
