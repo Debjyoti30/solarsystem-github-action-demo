@@ -30,7 +30,7 @@ jobs:
         run: |
              npm install
              npm test
-      - name: Download the unit test report
+      - name: Download unit test report
         uses: actions/upload-artifact@v4
         with:
           name: unit test report
