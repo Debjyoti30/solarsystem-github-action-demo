@@ -32,6 +32,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{matrix.nodejs_version}}
+      - name: cache the dependencies
+        uses: actions/cache@v4
+        with:
+          path: node-modules
+          key: ${{runner.os}}-npm-dependency-${{hashFiles('package-lock.json')}}
       - name: insall NPM and test 
         id: nodejs_dependency_unit_test
         run: |
@@ -55,6 +60,11 @@ jobs:
       - name: install nodejs for code coverage
         id: nodejs_setup_code_coverage
         uses: actions/setup-node@v4
+      - name: cache the dependencies
+        uses: actions/cache@v4
+        with:
+          path: node-modules
+          key: ${{runner.os}}-npm-dependency-${{hashFiles('package-lock.json')}}
       - name: install nodejs dependency
         id: install_npm_code_coverage
         run: npm install
