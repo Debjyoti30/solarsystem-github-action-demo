@@ -18,23 +18,58 @@ env:
 jobs:
   unit-test:
     name: unit test
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest,macos-latest]
+        nodejs_version: [18,20]
+    runs-on: ${{matrix.os}}
     steps:
       - name: checkout repository
+        id: unit_test_repo_checkout
         uses: actions/checkout@v4
       - name: Install nodejs
+        id: nodejs_install_unit_test
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{matrix.nodejs_version}}
       - name: insall NPM and test 
+        id: nodejs_dependency_unit_test
         run: |
              npm install
              npm test
       - name: Download unit test report
+        if: always()
+        id: unit_test_report
         uses: actions/upload-artifact@v4
         with:
           name: unit test report
           path: test-results.xml
+  code-coverage:
+    name: code coverage of the unit test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the repository
+        id: code_coverage_repo_checkout
+        uses: actions/checkout@v4
+      - name: install nodejs for code coverage
+        id: nodejs_setup_code_coverage
+        uses: actions/setup-node@v4
+      - name: install nodejs dependency
+        id: install_npm_code_coverage
+        run: npm install
+      - name: Run code coverage
+        continue-on-error: true
+        id: run_code_coverage
+        run: npm run coverage
+      - name: upload test coverage
+        id: upload_test_coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-coverage-result
+          path: test-coverage-result.xml
+
+
+   
           
         
          
