@@ -42,7 +42,7 @@ jobs:
         id: unit_test_report
         uses: actions/upload-artifact@v4
         with:
-          name: unit test report felicia
+          name: felicia-test-result-${{matrix.nodejs_version}}
           path: test-results.xml
   code-coverage:
     name: code coverage of the unit test
