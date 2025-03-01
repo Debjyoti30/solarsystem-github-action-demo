@@ -40,10 +40,10 @@ jobs:
       - name: Download unit test report
         if: always()
         id: unit_test_report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: unit test report felicia
-          path: test-results-felicia.xml
+          path: test-results.xml
   code-coverage:
     name: code coverage of the unit test
     needs: [unit-test]
@@ -64,10 +64,11 @@ jobs:
         run: npm run coverage
       - name: upload test coverage
         id: upload_test_coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: test-coverage-result-felicia
-          path: test-coverage-result-felicia.xml
+          path: coverage
+          retention-days: 5
 
 
    
