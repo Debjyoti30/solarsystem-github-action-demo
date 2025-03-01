@@ -46,6 +46,7 @@ jobs:
           path: test-results.xml
   code-coverage:
     name: code coverage of the unit test
+    needs: [unit-test]
     runs-on: ubuntu-latest
     steps:
       - name: checkout the repository
