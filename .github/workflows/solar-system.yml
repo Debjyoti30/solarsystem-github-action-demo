@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit test report felicia
-          path: test-results.xml
+          path: test-results-felicia.xml
   code-coverage:
     name: code coverage of the unit test
     needs: [unit-test]
@@ -66,8 +66,8 @@ jobs:
         id: upload_test_coverage
         uses: actions/upload-artifact@v4
         with:
-          name: test-coverage-result
-          path: test-coverage-result.xml
+          name: test-coverage-result-felicia
+          path: test-coverage-result-felicia.xml
 
 
    
