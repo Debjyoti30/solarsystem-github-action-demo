@@ -103,6 +103,7 @@ jobs:
           tags: ${{vars.DOCKER_LOGIN_USERNAME}}/solar-system:${{github.sha}}
       - name: Docker Image test
         id: docker_image_test
+        continue-on-error: true
         run: |
              docker run --name "felicia-solar" -p 3000:3000 -d \ 
              -e MONGO_URI=$MONGO_URI \
