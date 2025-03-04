@@ -51,7 +51,7 @@ jobs:
           path: test-results.xml
   code-coverage:
     name: code coverage of the unit test
-    needs: [unit-test]
+    needs: [unit-testing]
     runs-on: ubuntu-latest
     steps:
       - name: checkout the repository
@@ -81,7 +81,7 @@ jobs:
           retention-days: 2
   Docker:
     name: Containerization
-    needs: [unit-test,code-coverage]
+    needs: [unit-testing,code-coverage]
     runs-on: ubuntu-latest
     steps:
       - name: reposotory checkout
@@ -125,7 +125,7 @@ jobs:
     permissions: 
       packages: write
 
-    needs: [unit-test,code-coverage,Docker]
+    needs: [unit-testing,code-coverage,Docker]
     runs-on: ubuntu-latest
     steps:
       - name: reposotory checkout
