@@ -35,8 +35,8 @@ jobs:
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
-          path: node_modules
-          key: ${{runner.os}}-node-${{hashFiles('package-lock.json')}}
+          path: ~/.npm
+          key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
       - name: insall NPM and test 
         id: nodejs_dependency_unit_test
         run: |
@@ -63,8 +63,8 @@ jobs:
       - name: cache the dependencies
         uses: actions/cache@v4
         with:
-          path: node_modules
-          key: ${{runner.os}}-node-${{hashFiles('package-lock.json')}}
+          path: ~/.npm
+          key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
       - name: install nodejs dependency
         id: install_npm_code_coverage
         run: npm install
