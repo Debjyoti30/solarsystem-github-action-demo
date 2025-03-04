@@ -138,13 +138,16 @@ jobs:
           registry: ghcr.io
           username: ${{github.repository_owner}}
           password: ${{secrets.GITHUB_TOKEN}}
+      - name: Set lowercase repository owner
+        id: set_lowercase_owner
+        run: echo "REPO_OWNER_LOWERCASE=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Github container Build and push
         id: Github_container_build_push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ghcr.io/${{github.repository_owner}}/solar-system:${{github.sha}}
+          tags: ghcr.io/${{env.REPO_OWNER_LOWERCASE}}/solar-system:${{github.sha}}
       
       
       
