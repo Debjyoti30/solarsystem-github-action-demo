@@ -25,6 +25,16 @@ jobs:
     runs-on: ${{matrix.os}}
     container:
       image: node:20
+    services:
+      mongo-db:
+        image: siddharth67/mongo-db:non-prod
+        options: 
+          --name mongo
+    env:
+      MONGO_URI: 'mongodb://mongo:27017/superData'
+      MONGO_USERNAME: ${{vars.MONGODB_CON_USER_NAME}}
+      MONGO_PASSWORD: ${{secrets.MONGODB_CONNECTION_PUB_PASSWORD}}
+      
     steps:
       - name: checkout repository
         id: unit_test_repo_checkout
