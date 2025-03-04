@@ -21,17 +21,19 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        nodejs_version: [18,20]
+        nodejs_version: [20]
     runs-on: ${{matrix.os}}
+    container:
+      image: node:20
     steps:
       - name: checkout repository
         id: unit_test_repo_checkout
         uses: actions/checkout@v4
-      - name: Install nodejs
-        id: nodejs_install_unit_test
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{matrix.nodejs_version}}
+      #- name: Install nodejs
+       # id: nodejs_install_unit_test
+       # uses: actions/setup-node@v4
+       # with:
+       #   node-version: ${{matrix.nodejs_version}}
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
