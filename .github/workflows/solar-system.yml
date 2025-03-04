@@ -20,7 +20,7 @@ jobs:
     name: unit test
     strategy:
       matrix:
-        os: [ubuntu-latest,macos-latest]
+        os: [ubuntu-latest]
         nodejs_version: [18,20]
     runs-on: ${{matrix.os}}
     steps:
@@ -79,6 +79,74 @@ jobs:
           name: test-coverage-result-felicia
           path: coverage
           retention-days: 2
+  Docker:
+    name: Containerization
+    needs: [unit-test,code-coverage]
+    runs-on: ubuntu-latest
+    steps:
+      - name: reposotory checkout
+        id: repository_checout_deocker
+        uses: actions/checkout@v4
+      - name: Docker hub login
+        id: docker_hub_login
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{vars.DOCKER_LOGIN_USERNAME}}
+          password: ${{secrets.DOCKER_LOGIN_PASSWORD}}
+      - name: Docker Build 
+        id: Docker_build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: ${{vars.DOCKER_LOGIN_USERNAME}}/solar-system:${{github.sha}}
+      - name: Docker Image test
+        id: docker_image_test
+        run: |
+             docker run --name "felicia-solar" -p 3000:3000 -d \ 
+             -e MONGO_URI=$MONGO_URI \
+             -e MONGO_USERNAME=$MONGO_USERNAME \
+             -e MONGO_PASSWORD=$MONGO_PASSWORD \
+             ${{vars.DOCKER_LOGIN_USERNAME}}/solar-system:${{github.sha}} \
+
+             echo testing the image
+             wget -q -o - 127.0.0.1:3000/live | grep live
+      - name: Docker image push
+        id: Docker_image_push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true 
+          tags: ${{vars.DOCKER_LOGIN_USERNAME}}/solar-system:${{github.sha}}
+  Github_registry:
+    name: Containerization using GHCR
+    permissions: 
+      packages: write
+
+    needs: [unit-test,code-coverage,Docker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: reposotory checkout
+        id: repository_checout_deocker
+        uses: actions/checkout@v4
+      - name: Github registry login
+        id: Github_registry_login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.repository_owner}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Github container Build and push
+        id: Github_container_build_push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{vars.DOCKER_LOGIN_USERNAME}}/solar-system:${{github.sha}}
+      
+      
+      
 
 
    
