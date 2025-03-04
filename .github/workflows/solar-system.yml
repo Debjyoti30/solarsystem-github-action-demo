@@ -17,7 +17,7 @@ env:
    
 jobs:
   unit-testing:
-    name: unit test
+    name: unit testing
     strategy:
       matrix:
         os: [ubuntu-latest]
