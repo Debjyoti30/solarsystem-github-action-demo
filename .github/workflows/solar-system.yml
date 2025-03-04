@@ -16,7 +16,7 @@ env:
   MONGO_PASSWORD: ${{secrets.MONGOPASSWORD}}
    
 jobs:
-  unit-test:
+  unit-testing:
     name: unit test
     strategy:
       matrix:
